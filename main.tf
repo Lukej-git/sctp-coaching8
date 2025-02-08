@@ -54,6 +54,7 @@ data "aws_iam_policy_document" "db_read_list_all" {
             ]
    resources = ["*"] # Input relevant arn HERE
  }
+
  statement {
     #Policy Actions to allow EC2 to list from DynamoDB tables
    effect    = "Allow"
@@ -74,16 +75,35 @@ data "aws_iam_policy_document" "db_read_list_all" {
 
    resources = ["*"] # Input relevant arn HERE
  }
+
+ statement {
+    #Policy Actions to allow EC2 Description
+   effect    = "Allow"
+   actions   = ["ec2:Describe*"]
+   resources = ["*"]
+ }
+
+ statement {
+    #Policy Actions to allow EC2 Description
+   effect    = "Allow"
+   actions   = ["ec2:Describe*"]
+   resources = ["*"]
+ }
+
+ statement {
+    #Policy Actions to allow S3 bucket listing
+   effect    = "Allow"
+   actions   = ["s3:ListBucket*"]
+   resources = ["*"]
+ }
 }
 
 
 resource "aws_iam_policy" "db_reader" {
  name = "${local.name_prefix}-db_reader-policy"
 
-
  ## Option 1: Attach data block policy document
  policy = data.aws_iam_policy_document.db_read_list_all.json
-
 
 }
 
@@ -157,3 +177,11 @@ resource "aws_instance" "db_reader" {
  }
 }
 
+resource "aws_s3_bucket" "luke_bucket" {
+  bucket = "${local.name_prefix}-test-bucket"
+
+  tags = {
+    Name        = "Luke_bucket"
+    Environment = "Dev"
+  }
+}
