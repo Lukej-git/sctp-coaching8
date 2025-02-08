@@ -176,12 +176,3 @@ resource "aws_instance" "db_reader" {
    Name = "${local.name_prefix}-dbreader-${count.index}"
  }
 }
-
-resource "aws_s3_bucket" "luke_bucket" {
-  bucket = "${local.name_prefix}-test-bucket"
-
-  tags = {
-    Name        = "Luke_bucket"
-    Environment = "Dev"
-  }
-}
